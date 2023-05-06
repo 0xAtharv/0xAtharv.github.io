@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on MyBlog</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on MyBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 07 May 2023 00:37:29 +0530</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title> First-post</title>
+      <link>/tags/first-post/</link>
+      <pubDate>Sun, 07 May 2023 00:37:29 +0530</pubDate>
+      
+      <guid>/tags/first-post/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>/tags/about/</link>
+      <pubDate>Sun, 16 Apr 2023 00:20:34 +0530</pubDate>
+      
+      <guid>/tags/about/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>whoami</title>
+      <link>/tags/whoami/</link>
+      <pubDate>Sun, 16 Apr 2023 00:20:34 +0530</pubDate>
+      
+      <guid>/tags/whoami/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
+</rss>

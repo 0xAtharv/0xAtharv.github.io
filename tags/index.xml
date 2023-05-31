@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on MyBlog</title>
+    <title>Tags on 0xAtharv&#39;s Blog</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on MyBlog</description>
+    <description>Recent content in Tags on 0xAtharv&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 May 2023 00:37:29 +0530</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 May 2023 22:47:04 +0530</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kernel</title>
+      <link>/tags/kernel/</link>
+      <pubDate>Fri, 19 May 2023 22:47:04 +0530</pubDate>
+      
+      <guid>/tags/kernel/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>/tags/linux/</link>
+      <pubDate>Fri, 19 May 2023 22:47:04 +0530</pubDate>
+      
+      <guid>/tags/linux/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>pwn</title>
+      <link>/tags/pwn/</link>
+      <pubDate>Fri, 19 May 2023 22:47:04 +0530</pubDate>
+      
+      <guid>/tags/pwn/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title> First-post</title>
       <link>/tags/first-post/</link>

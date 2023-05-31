@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>pwn on MyBlog</title>
+    <title>pwn on 0xAtharv&#39;s Blog</title>
     <link>/tags/pwn/</link>
-    <description>Recent content in pwn on MyBlog</description>
+    <description>Recent content in pwn on 0xAtharv&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 19 May 2023 22:47:04 +0530</lastBuildDate><atom:link href="/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +17,7 @@
 I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?</description>
       <content>&lt;p&gt;So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !&lt;/p&gt;
 &lt;p&gt;I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ? because its a classic bof and it had a lot of good well documented writeups i can refer to :) !&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;DISCLAIMER: I am very new to kernel pwn so if you think something in the blog bpost seems a little off or is wrong feel free to reach out and correct me !&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DISCLAIMER: I am very new to kernel pwn so if you think something in the blog post seems a little off or is wrong feel free to reach out and correct me !&lt;/strong&gt;&lt;/p&gt;
 &lt;h1 id=&#34;debugging-setup&#34;&gt;Debugging Setup&lt;/h1&gt;
 &lt;p&gt;so the initial Qemu script provided to us looks like this :&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/bin/sh
@@ -433,7 +433,7 @@ I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?</descrip
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;NOTE: Another important thing to remember is we need to provide the CS , rflags ,sp and ss register which are popped from the stack during a kernel -&amp;gt; userland swap&lt;/p&gt;
 &lt;h1 id=&#34;closing-thoguhts&#34;&gt;Closing Thoguhts&lt;/h1&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;This Challenge seemed like a good introduction to kernel pwning and how to navigate kernel source sadly i couldn&amp;rsquo;t elaborate on everything i learned while solving this challemnge in this blog post so i definately recommend googling around &amp;hellip;. 0xAv Out !&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;This Challenge seemed like a good introduction to kernel pwning and how to navigate kernel source sadly i couldn&amp;rsquo;t elaborate on everything i learned while solving this challemnge in this blog post so i definately recommend googling around &amp;hellip;. 0xAtharv Out !&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 </content>
     </item>
     

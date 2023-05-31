@@ -2,31 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/tags/kernel/</loc>
-    <lastmod>2023-05-19T22:47:04+05:30</lastmod>
-  </url><url>
-    <loc>/posts/kernel-hacking-getting-started/</loc>
-    <lastmod>2023-05-19T22:47:04+05:30</lastmod>
-  </url><url>
-    <loc>/tags/linux/</loc>
-    <lastmod>2023-05-19T22:47:04+05:30</lastmod>
-  </url><url>
-    <loc>/</loc>
-    <lastmod>2023-05-19T22:47:04+05:30</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2023-05-19T22:47:04+05:30</lastmod>
-  </url><url>
-    <loc>/tags/pwn/</loc>
-    <lastmod>2023-05-19T22:47:04+05:30</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2023-05-19T22:47:04+05:30</lastmod>
-  </url><url>
     <loc>/tags/first-post/</loc>
     <lastmod>2023-05-07T00:37:29+05:30</lastmod>
   </url><url>
     <loc>/posts/hello-world/</loc>
+    <lastmod>2023-05-07T00:37:29+05:30</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2023-05-07T00:37:29+05:30</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2023-05-07T00:37:29+05:30</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
     <lastmod>2023-05-07T00:37:29+05:30</lastmod>
   </url><url>
     <loc>/tags/about/</loc>

@@ -6,14 +6,12 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Zombienet (Medium Difficulty Forensics) This is the medium forensics challenge. We are provided with a forensics_zombienet.zip which contains a file named openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin.
-running file:
-file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin: u-boot legacy uImage, MIPS OpenWrt Linux-5.15.137, Linux/MIPS, OS Kernel Image (Not compressed), 2847980 bytes, Tue Nov 14 13:38:11 2023, Load Address: 0X80001000, Entry Point: 0X80001000, Header CRC: 0X8AF857A2, Data CRC: 0XB8874DDF we can can guess it probably contains a squashfs image &amp;hellip; what is Squashfs?" />
+<meta name="description" content="Writeups for HTB Universtiy CTF 2023" />
 <meta name="keywords" content=", " />
 
   <meta name="robots" content="noodp" />
 
-<link rel="canonical" href="/posts/htb-university-ctf-writeups/" />
+<link rel="canonical" href="https://0xAtharv.github.io/posts/htb-university-ctf-writeups/" />
 
 
 
@@ -25,7 +23,7 @@ file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin o
   
   
   
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://0xAtharv.github.io/styles.css">
 
 
 
@@ -33,8 +31,8 @@ file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin o
 
 
 
-  <link rel="shortcut icon" href="/img/theme-colors/red.png">
-  <link rel="apple-touch-icon" href="/img/theme-colors/red.png">
+  <link rel="shortcut icon" href="https://0xAtharv.github.io/img/theme-colors/red.png">
+  <link rel="apple-touch-icon" href="https://0xAtharv.github.io/img/theme-colors/red.png">
 
 
 
@@ -50,15 +48,13 @@ file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin o
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="HTB University CTF Writeups">
-<meta property="og:description" content="Zombienet (Medium Difficulty Forensics) This is the medium forensics challenge. We are provided with a forensics_zombienet.zip which contains a file named openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin.
-running file:
-file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin: u-boot legacy uImage, MIPS OpenWrt Linux-5.15.137, Linux/MIPS, OS Kernel Image (Not compressed), 2847980 bytes, Tue Nov 14 13:38:11 2023, Load Address: 0X80001000, Entry Point: 0X80001000, Header CRC: 0X8AF857A2, Data CRC: 0XB8874DDF we can can guess it probably contains a squashfs image &amp;hellip; what is Squashfs?" />
-<meta property="og:url" content="/posts/htb-university-ctf-writeups/" />
+<meta property="og:description" content="Writeups for HTB Universtiy CTF 2023" />
+<meta property="og:url" content="https://0xAtharv.github.io/posts/htb-university-ctf-writeups/" />
 <meta property="og:site_name" content="Av&#39;s Blog" />
 
   
   
-  <meta property="og:image" content="/">
+  <meta property="og:image" content="https://0xAtharv.github.io">
 
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
@@ -141,16 +137,16 @@ file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin o
     
 <article class="post">
   <h1 class="post-title">
-    <a href="/posts/htb-university-ctf-writeups/">HTB University CTF Writeups</a>
+    <a href="https://0xAtharv.github.io/posts/htb-university-ctf-writeups/">HTB University CTF Writeups</a>
   </h1>
   <div class="post-meta"><time class="post-date">2024-01-02</time></div>
 
   
     <span class="post-tags">
       
-      #<a href="/tags/"></a>&nbsp;
+      #<a href="https://0xAtharv.github.io/tags/"></a>&nbsp;
       
-      #<a href="/tags/"></a>&nbsp;
+      #<a href="https://0xAtharv.github.io/tags/"></a>&nbsp;
       
     </span>
   

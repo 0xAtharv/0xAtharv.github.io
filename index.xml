@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Av&#39;s Blog</title>
-    <link>/</link>
+    <link>https://0xAtharv.github.io/</link>
     <description>Recent content on Av&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jan 2024 12:52:48 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Jan 2024 12:52:48 +0530</lastBuildDate><atom:link href="https://0xAtharv.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB University CTF Writeups</title>
-      <link>/posts/htb-university-ctf-writeups/</link>
+      <link>https://0xAtharv.github.io/posts/htb-university-ctf-writeups/</link>
       <pubDate>Tue, 02 Jan 2024 12:52:48 +0530</pubDate>
       
-      <guid>/posts/htb-university-ctf-writeups/</guid>
+      <guid>https://0xAtharv.github.io/posts/htb-university-ctf-writeups/</guid>
       <description>Zombienet (Medium Difficulty Forensics) This is the medium forensics challenge. We are provided with a forensics_zombienet.zip which contains a file named openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin.
 running file:
 file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin: u-boot legacy uImage, MIPS OpenWrt Linux-5.15.137, Linux/MIPS, OS Kernel Image (Not compressed), 2847980 bytes, Tue Nov 14 13:38:11 2023, Load Address: 0X80001000, Entry Point: 0X80001000, Header CRC: 0X8AF857A2, Data CRC: 0XB8874DDF we can can guess it probably contains a squashfs image &amp;hellip; what is Squashfs?</description>
@@ -609,10 +609,10 @@ lets open it in IDA.&lt;/p&gt;
     
     <item>
       <title>About me </title>
-      <link>/about/</link>
+      <link>https://0xAtharv.github.io/about/</link>
       <pubDate>Tue, 02 Jan 2024 12:45:58 +0530</pubDate>
       
-      <guid>/about/</guid>
+      <guid>https://0xAtharv.github.io/about/</guid>
       <description>Whoami Hello friend, I am 0xAtharv , you may also know me as 0xLoneWolf / Xy0nix.
 Im a CTF player and Undergrad student. Im a pwner &amp;amp; reversing player.
 Currently learning more about Kernel pwn and Operating Systems.
@@ -635,10 +635,10 @@ Twitter:&lt;a href=&#34;https://twitter.com/0xAtharv&#34;&gt;0xAtharv&lt;/a&gt;&
     
     <item>
       <title>Kernel Hacking: Getting Started</title>
-      <link>/posts/kernel-hacking-getting-started/</link>
+      <link>https://0xAtharv.github.io/posts/kernel-hacking-getting-started/</link>
       <pubDate>Thu, 14 Dec 2023 20:00:44 +0530</pubDate>
       
-      <guid>/posts/kernel-hacking-getting-started/</guid>
+      <guid>https://0xAtharv.github.io/posts/kernel-hacking-getting-started/</guid>
       <description>So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !
 I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?</description>
       <content>&lt;p&gt;So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !&lt;/p&gt;
@@ -1061,10 +1061,10 @@ read_mem:
     
     <item>
       <title>Hello World</title>
-      <link>/posts/hello-world/</link>
+      <link>https://0xAtharv.github.io/posts/hello-world/</link>
       <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
       
-      <guid>/posts/hello-world/</guid>
+      <guid>https://0xAtharv.github.io/posts/hello-world/</guid>
       <description>Hello World, this is my first blog post !!
 I will be documenting cool challenges i come across in CTFs here and also experminent with a lot of low-level code……
 I am gonna Write some blog posts soon i promise Dont be shy to reach out:

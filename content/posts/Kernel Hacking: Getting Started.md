@@ -1,14 +1,14 @@
 +++
 title = "Kernel Hacking: Getting Started"
 date = "2023-12-14T20:00:44+05:30"
-author = ""
-authorTwitter = "" #do not include @
+author = "0xAtharv"
+authorTwitter = "0xAtharv" #do not include @
 cover = ""
-tags = ["", ""]
-keywords = ["", ""]
-description = ""
+tags = ["Kernel Pwn","CTF","BOF"]
+keywords = ["Kernel Pwn","CTF","BOF"]
+description = "First step into the world of Kernel Hacking"
 showFullContent = false
-readingTime = false
+readingTime = true
 hideComments = false
 color = "" #color from the theme settings
 +++

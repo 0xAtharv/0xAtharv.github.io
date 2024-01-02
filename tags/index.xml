@@ -6,13 +6,73 @@
     <description>Recent content in Tags on Av&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 14 Dec 2023 19:59:38 +0530</lastBuildDate><atom:link href="https://0xAtharv.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Jan 2024 12:52:48 +0530</lastBuildDate><atom:link href="https://0xAtharv.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Forensics</title>
+      <link>https://0xAtharv.github.io/tags/forensics/</link>
+      <pubDate>Tue, 02 Jan 2024 12:52:48 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/forensics/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Malware</title>
+      <link>https://0xAtharv.github.io/tags/malware/</link>
+      <pubDate>Tue, 02 Jan 2024 12:52:48 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/malware/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>RC4</title>
+      <link>https://0xAtharv.github.io/tags/rc4/</link>
+      <pubDate>Tue, 02 Jan 2024 12:52:48 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/rc4/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Reversing</title>
+      <link>https://0xAtharv.github.io/tags/reversing/</link>
+      <pubDate>Tue, 02 Jan 2024 12:52:48 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/reversing/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title> ctf</title>
       <link>https://0xAtharv.github.io/tags/ctf/</link>
-      <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
+      <pubDate>Thu, 14 Dec 2023 20:00:44 +0530</pubDate>
       
       <guid>https://0xAtharv.github.io/tags/ctf/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>BOF</title>
+      <link>https://0xAtharv.github.io/tags/bof/</link>
+      <pubDate>Thu, 14 Dec 2023 20:00:44 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/bof/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Kernel Pwn</title>
+      <link>https://0xAtharv.github.io/tags/kernel-pwn/</link>
+      <pubDate>Thu, 14 Dec 2023 20:00:44 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/kernel-pwn/</guid>
       <description></description>
       <content></content>
     </item>

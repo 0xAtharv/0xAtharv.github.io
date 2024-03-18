@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title> First-Post on Av&#39;s Blog</title>
+    <link>https://0xAtharv.github.io/tags/-first-post/</link>
+    <description>Recent content in  First-Post on Av&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 14 Dec 2023 19:59:38 +0530</lastBuildDate><atom:link href="https://0xAtharv.github.io/tags/-first-post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello World</title>
+      <link>https://0xAtharv.github.io/posts/hello-world/</link>
+      <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/posts/hello-world/</guid>
+      <description>Hello World, this is my first blog post !!
+I will be documenting cool challenges i come across in CTFs here and also experminent with a lot of low-level code……
+I am gonna Write some blog posts soon i promise Dont be shy to reach out:
+Discord:0xLoneWolf#9627 Twitter:0xAtharv
+Hack The Planet ! </description>
+      <content>&lt;p&gt;Hello World, this is my first blog post !!&lt;/p&gt;
+&lt;p&gt;I will be documenting cool challenges i come across in CTFs here and also experminent with a lot of low-level code……&lt;/p&gt;
+&lt;p&gt;I am gonna Write some blog posts soon i promise
+Dont be shy to reach out:&lt;/p&gt;
+&lt;p&gt;Discord:0xLoneWolf#9627           &lt;br&gt;
+Twitter:&lt;a href=&#34;https://twitter.com/0xAtharv&#34;&gt;0xAtharv&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;                                  Hack The Planet !
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>

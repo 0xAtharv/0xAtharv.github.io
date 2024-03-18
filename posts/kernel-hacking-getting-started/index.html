@@ -54,7 +54,7 @@
 
   
   
-  <meta property="og:image" content="https://0xAtharv.github.io">
+  <meta property="og:image" content="https://0xAtharv.github.io/">
 
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
@@ -219,9 +219,9 @@ int name_offset;
 int namespace_offset;
 };</p>
 <p>looking at it in gdb prepare_kernel_cred function in ksymtab:</p>
-<p><img src="images/term1.png" alt="prepare_kernel_cred"></p>
+<p><img alt="prepare_kernel_cred" src="/images/term1.png"></p>
 <p>By cat /proc/kasllysms we can look at all kernel symbols we see that prepare_kernel_cred is at 0xffffffff814c67f0 and __ksymtab_prepare_kernel_cred is at 0xffffffff81f8d4fc</p>
-<p><img src="images/term2.png" alt="prepare_kernel_cred"></p>
+<p><img alt="prepare_kernel_cred" src="/images/term2.png"></p>
 <p>now adding the value_offset to the ksym address we see we are at the prepare_kernel_cred address which is (0xffffffff81f8d4fc-0xac6d0c) = 0xffffffff814c67f0 by adding the 0x000134b2 offset to (0xffffffff81f8d4fc+0x4) we get the string “prepare_kernel_cred”
 Using Ghidra to decompile the Binary⌗</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">ssize_t</span> <span style="color:#a6e22e">hackme_read</span>(file <span style="color:#f92672">*</span>f,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data,<span style="color:#66d9ef">size_t</span> size,<span style="color:#66d9ef">loff_t</span> <span style="color:#f92672">*</span>off)

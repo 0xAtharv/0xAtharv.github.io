@@ -6,7 +6,47 @@
     <description>Recent content in Tags on Av&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jan 2024 12:52:48 +0530</lastBuildDate><atom:link href="https://0xAtharv.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Mar 2024 20:33:30 +0530</lastBuildDate><atom:link href="https://0xAtharv.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Htb</title>
+      <link>https://0xAtharv.github.io/tags/htb/</link>
+      <pubDate>Mon, 18 Mar 2024 20:33:30 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/htb/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Htbctf</title>
+      <link>https://0xAtharv.github.io/tags/htbctf/</link>
+      <pubDate>Mon, 18 Mar 2024 20:33:30 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/htbctf/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Htbctf2024</title>
+      <link>https://0xAtharv.github.io/tags/htbctf2024/</link>
+      <pubDate>Mon, 18 Mar 2024 20:33:30 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/htbctf2024/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Pwn</title>
+      <link>https://0xAtharv.github.io/tags/pwn/</link>
+      <pubDate>Mon, 18 Mar 2024 20:33:30 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/pwn/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title>Forensics</title>
       <link>https://0xAtharv.github.io/tags/forensics/</link>
@@ -48,21 +88,21 @@
     </item>
     
     <item>
-      <title> ctf</title>
-      <link>https://0xAtharv.github.io/tags/ctf/</link>
-      <pubDate>Thu, 14 Dec 2023 20:00:44 +0530</pubDate>
-      
-      <guid>https://0xAtharv.github.io/tags/ctf/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
       <title>BOF</title>
       <link>https://0xAtharv.github.io/tags/bof/</link>
       <pubDate>Thu, 14 Dec 2023 20:00:44 +0530</pubDate>
       
       <guid>https://0xAtharv.github.io/tags/bof/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>CTF</title>
+      <link>https://0xAtharv.github.io/tags/ctf/</link>
+      <pubDate>Thu, 14 Dec 2023 20:00:44 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/ctf/</guid>
       <description></description>
       <content></content>
     </item>
@@ -78,21 +118,31 @@
     </item>
     
     <item>
-      <title> first-post</title>
-      <link>https://0xAtharv.github.io/tags/first-post/</link>
+      <title> Ctf</title>
+      <link>https://0xAtharv.github.io/tags/-ctf/</link>
       <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
       
-      <guid>https://0xAtharv.github.io/tags/first-post/</guid>
+      <guid>https://0xAtharv.github.io/tags/-ctf/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
-      <title> hello_world</title>
-      <link>https://0xAtharv.github.io/tags/hello_world/</link>
+      <title> First-Post</title>
+      <link>https://0xAtharv.github.io/tags/-first-post/</link>
       <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
       
-      <guid>https://0xAtharv.github.io/tags/hello_world/</guid>
+      <guid>https://0xAtharv.github.io/tags/-first-post/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title> Hello_world</title>
+      <link>https://0xAtharv.github.io/tags/-hello_world/</link>
+      <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
+      
+      <guid>https://0xAtharv.github.io/tags/-hello_world/</guid>
       <description></description>
       <content></content>
     </item>

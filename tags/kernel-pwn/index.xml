@@ -62,9 +62,9 @@ int name_offset;
 int namespace_offset;
 };&lt;/p&gt;
 &lt;p&gt;looking at it in gdb prepare_kernel_cred function in ksymtab:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/term1.png&#34; alt=&#34;prepare_kernel_cred&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;prepare_kernel_cred&#34; src=&#34;https://0xAtharv.github.io/images/term1.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;By cat /proc/kasllysms we can look at all kernel symbols we see that prepare_kernel_cred is at 0xffffffff814c67f0 and __ksymtab_prepare_kernel_cred is at 0xffffffff81f8d4fc&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/term2.png&#34; alt=&#34;prepare_kernel_cred&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;prepare_kernel_cred&#34; src=&#34;https://0xAtharv.github.io/images/term2.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;now adding the value_offset to the ksym address we see we are at the prepare_kernel_cred address which is (0xffffffff81f8d4fc-0xac6d0c) = 0xffffffff814c67f0 by adding the 0x000134b2 offset to (0xffffffff81f8d4fc+0x4) we get the string “prepare_kernel_cred”
 Using Ghidra to decompile the Binary⌗&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;hackme_read&lt;/span&gt;(file &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;f,&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;data,&lt;span style=&#34;color:#66d9ef&#34;&gt;size_t&lt;/span&gt; size,&lt;span style=&#34;color:#66d9ef&#34;&gt;loff_t&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;off)

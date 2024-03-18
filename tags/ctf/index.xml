@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title> ctf on Av&#39;s Blog</title>
+    <title>CTF on Av&#39;s Blog</title>
     <link>https://0xAtharv.github.io/tags/ctf/</link>
-    <description>Recent content in  ctf on Av&#39;s Blog</description>
+    <description>Recent content in CTF on Av&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 14 Dec 2023 20:00:44 +0530</lastBuildDate><atom:link href="https://0xAtharv.github.io/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
@@ -62,9 +62,9 @@ int name_offset;
 int namespace_offset;
 };&lt;/p&gt;
 &lt;p&gt;looking at it in gdb prepare_kernel_cred function in ksymtab:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/term1.png&#34; alt=&#34;prepare_kernel_cred&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;prepare_kernel_cred&#34; src=&#34;https://0xAtharv.github.io/images/term1.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;By cat /proc/kasllysms we can look at all kernel symbols we see that prepare_kernel_cred is at 0xffffffff814c67f0 and __ksymtab_prepare_kernel_cred is at 0xffffffff81f8d4fc&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;images/term2.png&#34; alt=&#34;prepare_kernel_cred&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;prepare_kernel_cred&#34; src=&#34;https://0xAtharv.github.io/images/term2.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;now adding the value_offset to the ksym address we see we are at the prepare_kernel_cred address which is (0xffffffff81f8d4fc-0xac6d0c) = 0xffffffff814c67f0 by adding the 0x000134b2 offset to (0xffffffff81f8d4fc+0x4) we get the string “prepare_kernel_cred”
 Using Ghidra to decompile the Binary⌗&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;hackme_read&lt;/span&gt;(file &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;f,&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;data,&lt;span style=&#34;color:#66d9ef&#34;&gt;size_t&lt;/span&gt; size,&lt;span style=&#34;color:#66d9ef&#34;&gt;loff_t&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;off)
@@ -430,28 +430,6 @@ read_mem:
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;NOTE: Another important thing to remember is we need to provide the CS , rflags ,sp and ss register which are popped from the stack during a kernel -&amp;gt; userland swap&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;closing-thoguhts&#34;&gt;Closing Thoguhts&lt;/h2&gt;
 &lt;p&gt;This Challenge seemed like a good introduction to kernel pwning and how to navigate kernel source sadly i couldn’t elaborate on everything i learned while solving this challemnge in this blog post so i definately recommend googling around …. &lt;a href=&#34;https://twitter.com/0xAtharv&#34;&gt;0xAtharv&lt;/a&gt; Out !&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>https://0xAtharv.github.io/posts/hello-world/</link>
-      <pubDate>Thu, 14 Dec 2023 19:59:38 +0530</pubDate>
-      
-      <guid>https://0xAtharv.github.io/posts/hello-world/</guid>
-      <description>Hello World, this is my first blog post !!
-I will be documenting cool challenges i come across in CTFs here and also experminent with a lot of low-level code……
-I am gonna Write some blog posts soon i promise Dont be shy to reach out:
-Discord:0xLoneWolf#9627 Twitter:0xAtharv
-Hack The Planet ! </description>
-      <content>&lt;p&gt;Hello World, this is my first blog post !!&lt;/p&gt;
-&lt;p&gt;I will be documenting cool challenges i come across in CTFs here and also experminent with a lot of low-level code……&lt;/p&gt;
-&lt;p&gt;I am gonna Write some blog posts soon i promise
-Dont be shy to reach out:&lt;/p&gt;
-&lt;p&gt;Discord:0xLoneWolf#9627           &lt;br&gt;
-Twitter:&lt;a href=&#34;https://twitter.com/0xAtharv&#34;&gt;0xAtharv&lt;/a&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;                                  Hack The Planet !
-&lt;/code&gt;&lt;/pre&gt;
 </content>
     </item>
     

@@ -126,7 +126,7 @@ We have 4 options in the menu: Create , Delete , Show and a mystery option (42)<
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This &lt;code&gt;_&lt;/code&gt; function takes a pointer to array of pointers .The function takes the 0th index as a hexadecimal string which means the string needs to start with &lt;code&gt;0x&lt;/code&gt;  and then it converts the string to a unsigned long and then called as a function like so with the 1st index as the argument&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This &lt;code&gt;_&lt;/code&gt; function takes a pointer to array of pointers .The function takes the 0th index as a hexadecimal string which means the string needs to start with &lt;code&gt;0x&lt;/code&gt;  and then it converts the string to a unsigned long and then calls it as a function with the 1st index as the argument like so :&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;            0               1
 ----------------------------------------
 |  function pointer |      arg         |
@@ -189,8 +189,7 @@ We have 4 options in the menu: Create , Delete , Show and a mystery option (42)<
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;interactive()
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;!-- raw HTML omitted --&gt;
-&lt;p&gt;&lt;img alt=&#34;ezz_test&#34; src=&#34;https://0xAtharv.github.io/images/its-just-too-easy-bro-dripboolin.gif&#34;&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img alt=&#34;ezz_test&#34; src=&#34;https://0xAtharv.github.io/images/its-just-too-easy-bro-dripboolin.gif&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;pwn-challenge-oracle-hard&#34;&gt;Pwn Challenge Oracle [Hard]&lt;/h2&gt;
 &lt;p&gt;we are given the source code of this challenge :&lt;/p&gt;
 &lt;h3 id=&#34;oraclec&#34;&gt;oracle.c&lt;/h3&gt;
@@ -444,13 +443,13 @@ We have 4 options in the menu: Create , Delete , Show and a mystery option (42)<
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;initial-analysis&#34;&gt;Initial-Analysis&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;The program creates a socket a binds it to port 9001&lt;/li&gt;
+&lt;li&gt;The program creates a socket and binds it to port 9001&lt;/li&gt;
 &lt;li&gt;It then parses headers using parse_headers() and request handling using handle_requests()&lt;/li&gt;
 &lt;li&gt;the program has limited functionality where in we view competitiors or plague who have handle_view and handle_plague handlers respectively.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;bugs&#34;&gt;Bugs&lt;/h3&gt;
 &lt;p&gt;so we have a buffer overflow in the parse_headers() function where it keeps reading from the client socket until a &amp;ldquo;\r\n\r\n&amp;rdquo; is recvieved to a fixed size buffer of 1024 bytes. The program doesnt have stack canaries enabled so we can just overwrite RIP.&lt;/p&gt;
-&lt;p&gt;Leak ?&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Leak ?&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;so we can get a libc leak by creating a chunk of size 2000 freeing it allocating the same chunk again but this this we will have a libc pointer in this chunk .There is also a interger overflow vuln in the plague function when we parse the header &lt;code&gt;content-Length&lt;/code&gt; we store a unsigned long in a signed long &amp;hellip;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;plague_content &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)&lt;span style=&#34;color:#a6e22e&#34;&gt;malloc&lt;/span&gt;(MAX_PLAGUE_CONTENT_SIZE);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ....
@@ -467,7 +466,7 @@ We have 4 options in the menu: Create , Delete , Show and a mystery option (42)<
 &lt;p&gt;The primitives given above can be used to leak libc address and also to get a ropchain going.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;We create a chunk of 2000 bytes in the heap and writes 2000bytes to it  with 1 connection then we again create a 2000 bytes chunk this time only writing 1byte to this this will give us two pointers to libc in out handle_plague() output .&lt;/p&gt;
+&lt;p&gt;We create a chunk of 2000 bytes in the heap and write 2000bytes to it  with 1 connection then we again create a 2000 bytes chunk but this time only writing 1byte to the buffer this will give us two pointers to libc in our handle_plague() output .&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;We can create another connection to exploit the buffer overflow in the parse_headers function.&lt;/p&gt;
@@ -552,7 +551,7 @@ refers to the same open file description as oldfd&lt;/em&gt;.
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE: This will close our programs stdio and stdout (fds 0 and 1 respectively)&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;dup2&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;); 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;dup2&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I used gdb to find the socket fd of my final connection.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I used gdb to find the socket&amp;rsquo;s fd of my final connection.&lt;/p&gt;
 &lt;h2 id=&#34;final-exploit&#34;&gt;Final Exploit&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; pwn &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;

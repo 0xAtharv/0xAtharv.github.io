@@ -304,7 +304,7 @@
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>This <code>_</code> function takes a pointer to array of pointers .The function takes the 0th index as a hexadecimal string which means the string needs to start with <code>0x</code>  and then it converts the string to a unsigned long and then called as a function like so with the 1st index as the argument</p>
+</span></span></code></pre></div><p>This <code>_</code> function takes a pointer to array of pointers .The function takes the 0th index as a hexadecimal string which means the string needs to start with <code>0x</code>  and then it converts the string to a unsigned long and then calls it as a function with the 1st index as the argument like so :</p>
 <pre tabindex="0"><code>            0               1
 ----------------------------------------
 |  function pointer |      arg         |
@@ -367,8 +367,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>interactive()
-</span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img alt="ezz_test" src="/images/its-just-too-easy-bro-dripboolin.gif"></p>
+</span></span></code></pre></div><p><img alt="ezz_test" src="/images/its-just-too-easy-bro-dripboolin.gif"></p>
 <h2 id="pwn-challenge-oracle-hard">Pwn Challenge Oracle [Hard]<a href="#pwn-challenge-oracle-hard" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>we are given the source code of this challenge :</p>
 <h3 id="oraclec">oracle.c<a href="#oraclec" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
@@ -622,13 +621,13 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="initial-analysis">Initial-Analysis<a href="#initial-analysis" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <ul>
-<li>The program creates a socket a binds it to port 9001</li>
+<li>The program creates a socket and binds it to port 9001</li>
 <li>It then parses headers using parse_headers() and request handling using handle_requests()</li>
 <li>the program has limited functionality where in we view competitiors or plague who have handle_view and handle_plague handlers respectively.</li>
 </ul>
 <h3 id="bugs">Bugs<a href="#bugs" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>so we have a buffer overflow in the parse_headers() function where it keeps reading from the client socket until a &ldquo;\r\n\r\n&rdquo; is recvieved to a fixed size buffer of 1024 bytes. The program doesnt have stack canaries enabled so we can just overwrite RIP.</p>
-<p>Leak ?</p>
+<p><em><strong>Leak ?</strong></em></p>
 <p>so we can get a libc leak by creating a chunk of size 2000 freeing it allocating the same chunk again but this this we will have a libc pointer in this chunk .There is also a interger overflow vuln in the plague function when we parse the header <code>content-Length</code> we store a unsigned long in a signed long &hellip;</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>plague_content <span style="color:#f92672">=</span> (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)<span style="color:#a6e22e">malloc</span>(MAX_PLAGUE_CONTENT_SIZE);
 </span></span><span style="display:flex;"><span>    ....
@@ -645,7 +644,7 @@
 <p>The primitives given above can be used to leak libc address and also to get a ropchain going.</p>
 <ul>
 <li>
-<p>We create a chunk of 2000 bytes in the heap and writes 2000bytes to it  with 1 connection then we again create a 2000 bytes chunk this time only writing 1byte to this this will give us two pointers to libc in out handle_plague() output .</p>
+<p>We create a chunk of 2000 bytes in the heap and write 2000bytes to it  with 1 connection then we again create a 2000 bytes chunk but this time only writing 1byte to the buffer this will give us two pointers to libc in our handle_plague() output .</p>
 </li>
 <li>
 <p>We can create another connection to exploit the buffer overflow in the parse_headers function.</p>
@@ -730,7 +729,7 @@ refers to the same open file description as oldfd</em>.
 <p><em><strong>NOTE: This will close our programs stdio and stdout (fds 0 and 1 respectively)</strong></em></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#a6e22e">dup2</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">0</span>); 
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">dup2</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">1</span>);
-</span></span></code></pre></div><p>I used gdb to find the socket fd of my final connection.</p>
+</span></span></code></pre></div><p>I used gdb to find the socket&rsquo;s fd of my final connection.</p>
 <h2 id="final-exploit">Final Exploit<a href="#final-exploit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span>

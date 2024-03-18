@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   
     <title>Kernel Hacking: Getting Started :: Av&#39;s Blog</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !
-I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
-<meta name="keywords" content=", " />
+<meta name="description" content="First step into the world of Kernel Hacking" />
+<meta name="keywords" content="Kernel Pwn, CTF, BOF" />
 
   <meta name="robots" content="noodp" />
 
-<link rel="canonical" href="/posts/kernel-hacking-getting-started/" />
+<link rel="canonical" href="http://localhost:1313/posts/kernel-hacking-getting-started/" />
 
 
 
@@ -24,7 +23,7 @@ I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
   
   
   
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="http://localhost:1313/styles.css">
 
 
 
@@ -32,8 +31,8 @@ I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
 
 
 
-  <link rel="shortcut icon" href="/img/theme-colors/red.png">
-  <link rel="apple-touch-icon" href="/img/theme-colors/red.png">
+  <link rel="shortcut icon" href="http://localhost:1313/img/theme-colors/red.png">
+  <link rel="apple-touch-icon" href="http://localhost:1313/img/theme-colors/red.png">
 
 
 
@@ -42,21 +41,20 @@ I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
   
     <meta name="twitter:site" content="https://twitter.com/0xAtharv" />
   
-    <meta name="twitter:creator" content="" />
+    <meta name="twitter:creator" content="0xAtharv" />
 
 
 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Kernel Hacking: Getting Started">
-<meta property="og:description" content="So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !
-I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
-<meta property="og:url" content="/posts/kernel-hacking-getting-started/" />
+<meta property="og:description" content="First step into the world of Kernel Hacking" />
+<meta property="og:url" content="http://localhost:1313/posts/kernel-hacking-getting-started/" />
 <meta property="og:site_name" content="Av&#39;s Blog" />
 
   
   
-  <meta property="og:image" content="/">
+  <meta property="og:image" content="http://localhost:1313/">
 
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
@@ -139,16 +137,18 @@ I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?" />
     
 <article class="post">
   <h1 class="post-title">
-    <a href="/posts/kernel-hacking-getting-started/">Kernel Hacking: Getting Started</a>
+    <a href="http://localhost:1313/posts/kernel-hacking-getting-started/">Kernel Hacking: Getting Started</a>
   </h1>
-  <div class="post-meta"><time class="post-date">2023-12-14</time></div>
+  <div class="post-meta"><time class="post-date">2023-12-14</time><span class="post-author">0xAtharv</span><span class="post-reading-time">9 min read (1811 words)</span></div>
 
   
     <span class="post-tags">
       
-      #<a href="/tags/"></a>&nbsp;
+      #<a href="http://localhost:1313/tags/kernel-pwn/">Kernel Pwn</a>&nbsp;
       
-      #<a href="/tags/"></a>&nbsp;
+      #<a href="http://localhost:1313/tags/ctf/">CTF</a>&nbsp;
+      
+      #<a href="http://localhost:1313/tags/bof/">BOF</a>&nbsp;
       
     </span>
   
@@ -219,9 +219,9 @@ int name_offset;
 int namespace_offset;
 };</p>
 <p>looking at it in gdb prepare_kernel_cred function in ksymtab:</p>
-<p><img src="images/term1.png" alt="prepare_kernel_cred"></p>
+<p><img alt="prepare_kernel_cred" src="/images/term1.png"></p>
 <p>By cat /proc/kasllysms we can look at all kernel symbols we see that prepare_kernel_cred is at 0xffffffff814c67f0 and __ksymtab_prepare_kernel_cred is at 0xffffffff81f8d4fc</p>
-<p><img src="images/term2.png" alt="prepare_kernel_cred"></p>
+<p><img alt="prepare_kernel_cred" src="/images/term2.png"></p>
 <p>now adding the value_offset to the ksym address we see we are at the prepare_kernel_cred address which is (0xffffffff81f8d4fc-0xac6d0c) = 0xffffffff814c67f0 by adding the 0x000134b2 offset to (0xffffffff81f8d4fc+0x4) we get the string “prepare_kernel_cred”
 Using Ghidra to decompile the Binary⌗</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">ssize_t</span> <span style="color:#a6e22e">hackme_read</span>(file <span style="color:#f92672">*</span>f,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data,<span style="color:#66d9ef">size_t</span> size,<span style="color:#66d9ef">loff_t</span> <span style="color:#f92672">*</span>off)

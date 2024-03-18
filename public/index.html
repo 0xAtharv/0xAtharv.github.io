@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.121.1">
+	<meta name="generator" content="Hugo 0.123.8"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   
     <title>Av&#39;s Blog</title>
   
@@ -12,7 +12,7 @@
 
   <meta name="robots" content="noodp" />
 
-<link rel="canonical" href="/" />
+<link rel="canonical" href="http://localhost:1313/" />
 
 
 
@@ -24,7 +24,7 @@
   
   
   
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="http://localhost:1313/styles.css">
 
 
 
@@ -32,8 +32,8 @@
 
 
 
-  <link rel="shortcut icon" href="/img/theme-colors/red.png">
-  <link rel="apple-touch-icon" href="/img/theme-colors/red.png">
+  <link rel="shortcut icon" href="http://localhost:1313/img/theme-colors/red.png">
+  <link rel="apple-touch-icon" href="http://localhost:1313/img/theme-colors/red.png">
 
 
 
@@ -50,11 +50,11 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Av&#39;s Blog">
 <meta property="og:description" content="" />
-<meta property="og:url" content="/" />
+<meta property="og:url" content="http://localhost:1313/" />
 <meta property="og:site_name" content="Av&#39;s Blog" />
 
   
-    <meta property="og:image" content="/img/favicon/red.png">
+    <meta property="og:image" content="http://localhost:1313/img/favicon/red.png">
   
 
 <meta property="og:image:width" content="1200">
@@ -150,17 +150,17 @@
     
       <article class="post on-list">
         <h1 class="post-title">
-          <a href="/posts/htb-university-ctf-writeups/">HTB University CTF Writeups</a>
+          <a href="http://localhost:1313/posts/cyber-apocalypse-2024-hacker-royale/">Cyber Apocalypse 2024: Hacker Royale</a>
         </h1>
 
-        <div class="post-meta"><time class="post-date">2024-01-02</time></div>
+        <div class="post-meta"><time class="post-date">2024-03-18</time></div>
 
         
           <span class="post-tags">
             
-            #<a href="/tags/"></a>&nbsp;
+            #<a href="http://localhost:1313/tags/"></a>&nbsp;
             
-            #<a href="/tags/"></a>&nbsp;
+            #<a href="http://localhost:1313/tags/"></a>&nbsp;
             
           </span>
         
@@ -170,9 +170,46 @@
 
         <div class="post-content">
           
-            Zombienet (Medium Difficulty Forensics) This is the medium forensics challenge. We are provided with a forensics_zombienet.zip which contains a file named openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin.
-running file:
-file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin: u-boot legacy uImage, MIPS OpenWrt Linux-5.15.137, Linux/MIPS, OS Kernel Image (Not compressed), 2847980 bytes, Tue Nov 14 13:38:11 2023, Load Address: 0X80001000, Entry Point: 0X80001000, Header CRC: 0X8AF857A2, Data CRC: 0XB8874DDF we can can guess it probably contains a squashfs image &hellip; what is Squashfs?
+            Pwn Challenge Deathnote [Hard] By looking at the challenge we can guess its a Menu-Based Heap Challenge.
+We have 4 options in the menu: Create , Delete , Show and a mystery option (42)
+Decompiled Code void main(void) { ulong user_inp; long in_FS_OFFSET; unsigned long global_ptr_array[10]={0x0}; undefined8 canary; canary = *(undefined8 *)(in_FS_OFFSET + 0x28); LAB_00101a48: while (user_inp = menu(), user_inp == 0x2a) { _(&amp;global_ptr_array); } if (user_inp &lt; 0x2b) { if (user_inp == 3) { show(&amp;global_ptr_array); goto LAB_00101a48; } if (user_inp &lt; 4) { if (user_inp == 1) { add(&amp;global_ptr_array); } else { if (user_inp !
+          
+        </div>
+
+        
+          <div>
+            <a class="read-more button" href="/posts/cyber-apocalypse-2024-hacker-royale/">Read more →</a>
+          </div>
+        
+      </article>
+    
+      <article class="post on-list">
+        <h1 class="post-title">
+          <a href="http://localhost:1313/posts/htb-university-ctf-writeups/">HTB University CTF Writeups</a>
+        </h1>
+
+        <div class="post-meta"><time class="post-date">2024-01-02</time><span class="post-author">0xAtharv</span></div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="http://localhost:1313/tags/forensics/">Forensics</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/reversing/">Reversing</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/rc4/">RC4</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/malware/">Malware</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+        <div class="post-content">
+          
+            Writeups for HTB Universtiy CTF 2023
           
         </div>
 
@@ -185,17 +222,19 @@ file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin o
     
       <article class="post on-list">
         <h1 class="post-title">
-          <a href="/posts/kernel-hacking-getting-started/">Kernel Hacking: Getting Started</a>
+          <a href="http://localhost:1313/posts/kernel-hacking-getting-started/">Kernel Hacking: Getting Started</a>
         </h1>
 
-        <div class="post-meta"><time class="post-date">2023-12-14</time></div>
+        <div class="post-meta"><time class="post-date">2023-12-14</time><span class="post-author">0xAtharv</span></div>
 
         
           <span class="post-tags">
             
-            #<a href="/tags/"></a>&nbsp;
+            #<a href="http://localhost:1313/tags/kernel-pwn/">Kernel Pwn</a>&nbsp;
             
-            #<a href="/tags/"></a>&nbsp;
+            #<a href="http://localhost:1313/tags/ctf/">CTF</a>&nbsp;
+            
+            #<a href="http://localhost:1313/tags/bof/">BOF</a>&nbsp;
             
           </span>
         
@@ -205,8 +244,7 @@ file openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-squashfs-sysupgrade.bin o
 
         <div class="post-content">
           
-            So in this blog post i will be writing about kernel pwning / kernel hacking (linux).I was also fascinated with how the kernel worked and to me it was always very mystical and seemed something extremely complicated (extended inline assembly seemed like it was elvish writing ). I will be writing about various steps i took to start kernel hacking .So lets get started !
-I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?
+            First step into the world of Kernel Hacking
           
         </div>
 
@@ -219,7 +257,7 @@ I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?
     
       <article class="post on-list">
         <h1 class="post-title">
-          <a href="/posts/hello-world/">Hello World</a>
+          <a href="http://localhost:1313/posts/hello-world/">Hello World</a>
         </h1>
 
         <div class="post-meta"><time class="post-date">2023-12-14</time><span class="post-author">0xAtharv</span></div>
@@ -227,11 +265,11 @@ I will be starting with a challenge from hxp-ctf 2020 kerne-rop , Why ?
         
           <span class="post-tags">
             
-            #<a href="/tags/-ctf/"> ctf</a>&nbsp;
+            #<a href="http://localhost:1313/tags/-ctf/"> ctf</a>&nbsp;
             
-            #<a href="/tags/-first-post/"> first-post</a>&nbsp;
+            #<a href="http://localhost:1313/tags/-first-post/"> first-post</a>&nbsp;
             
-            #<a href="/tags/-hello_world/"> hello_world</a>&nbsp;
+            #<a href="http://localhost:1313/tags/-hello_world/"> hello_world</a>&nbsp;
             
           </span>
         

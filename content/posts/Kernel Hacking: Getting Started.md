@@ -80,11 +80,11 @@ struct kernel_symbol {
 
 looking at it in gdb prepare_kernel_cred function in ksymtab:
 
-![prepare_kernel_cred](images/term1.png)
+![prepare_kernel_cred](/images/term1.png)
 
 By cat /proc/kasllysms we can look at all kernel symbols we see that prepare_kernel_cred is at 0xffffffff814c67f0 and __ksymtab_prepare_kernel_cred is at 0xffffffff81f8d4fc
 
-![prepare_kernel_cred](images/term2.png)
+![prepare_kernel_cred](/images/term2.png)
 
 
 now adding the value_offset to the ksym address we see we are at the prepare_kernel_cred address which is (0xffffffff81f8d4fc-0xac6d0c) = 0xffffffff814c67f0 by adding the 0x000134b2 offset to (0xffffffff81f8d4fc+0x4) we get the string “prepare_kernel_cred”

@@ -14,13 +14,13 @@
       
       <guid>https://0xAtharv.github.io/posts/cyber-apocalypse-2024-hacker-royale/</guid>
       <description>So our Team L3ak played HTB CTF , which lasted for 5 long days . Everyone from our team stepped up and we secured 14th place out of 5694 teams !! All my Teammates are absolute legends !
-Pwn Challenge Deathnote [Hard] By locleared almost all categorises oking at the challenge we can guess its a Menu-Based Heap Challenge.
+Pwn Challenge Deathnote [Hard] By looking at the challenge we can guess its a Menu-Based Heap Challenge.
 We have 4 options in the menu: Create , Delete , Show and a mystery option (42)</description>
       <content>&lt;p&gt;&lt;img src=&#34;https://0xAtharv.github.io/images/htbctf-rank.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;So our Team L3ak played HTB CTF , which lasted for 5 long days . Everyone from our team stepped up and we secured 14th place out of 5694 teams !!&lt;/strong&gt;
 &lt;strong&gt;All my Teammates are absolute legends !&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;pwn-challenge-deathnote-hard&#34;&gt;Pwn Challenge Deathnote [Hard]&lt;/h2&gt;
-&lt;p&gt;By locleared almost all categorises oking at the challenge we can guess its a Menu-Based Heap Challenge.&lt;/p&gt;
+&lt;p&gt;By looking at the challenge we can guess its a Menu-Based Heap Challenge.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://0xAtharv.github.io/images/deathnote_prompt.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;We have 4 options in the menu: Create , Delete , Show and a mystery option (42)&lt;/p&gt;
 &lt;h3 id=&#34;decompiled-code&#34;&gt;Decompiled Code&lt;/h3&gt;
